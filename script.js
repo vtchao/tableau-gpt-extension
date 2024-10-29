@@ -1,27 +1,3 @@
-// Initialize the Tableau Extensions API
-tableau.extensions.initializeAsync().then(() => {
-    console.log("Tableau Extensions API initialized.");
-
-    // Get the first worksheet in the dashboard (adjust this if you need a specific worksheet)
-    const worksheet = tableau.extensions.dashboardContent.dashboard.worksheets[0];
-
-    // Fetch and summarize data when the worksheet loads
-    worksheet.getSummaryDataAsync().then(dataTable => {
-        const dataSummary = formatDataForAPI(dataTable);
-        console.log("Data Summary:", dataSummary);  // Log to verify the data summary
-        sendDataToAPI(dataSummary);  // Function to send data to your API
-    });
-}).catch(error => {
-    console.error("Error initializing Tableau Extensions API:", error);
-});
-
-// Function to format Tableau data into a string summary for the API
-function formatDataForAPI(dataTable) {
-    // Flatten and join data for a simple summary; you may need to adjust depending on data complexity
-    return dataTable.data.map(row => row.map(cell => cell.formattedValue)).join(", ");
-}
-
-// Function to send the data to the FastAPI endpoint
 function sendDataToAPI(dataSummary) {
     const fastapi_url = 'http://140.118.60.18:8002/model_response';
 
@@ -42,17 +18,22 @@ function sendDataToAPI(dataSummary) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(requestBody)
     })
-    .then(response => response.json())
-    .then(data => displayResponse(data))
+    .then(response => {
+        if (!response.ok) throw new Error("Network response was not ok");
+        return response.json();
+    })
+    .then(data => {
+        if (typeof data.response === "string") {
+            displayResponse(data);
+        } else {
+            console.warn("Unexpected response format:", data);
+            displayResponse({ response: "No valid response text found." });
+        }
+    })
     .catch(error => console.error("Error fetching data from API:", error));
 }
 
-// Function to display the API response in the HTML
 function displayResponse(data) {
     const responseDiv = document.getElementById("apiResponse");
-    if (data && data.response) {
-        responseDiv.innerText = data.response;
-    } else {
-        responseDiv.innerText = "No insights available or error in fetching data.";
-    }
+    responseDiv.innerText = data.response || "No insights available.";
 }
