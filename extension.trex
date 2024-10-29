@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Extension id="GPTInsightsExtension" version="1.0" xmlns="http://tableau.com/extension">
     <Name>GPT Insights Extension</Name>
-    <Script src="https://path-to-your-hosted-file/index.html" />
+    <Script src="https://vtchao.github.io/tableau-gpt-extension/" />
     <Description>Provides AI-generated insights based on Tableau data.</Description>
 </Extension>
