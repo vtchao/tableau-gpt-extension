@@ -2,20 +2,24 @@
 <html lang="en">
 <head>
   <title>GPT Insights Extension</title>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <!-- Extensions Library -->
   <script src="https://extensions.tableauusercontent.com/resources/tableau.extensions.1.latest.min.js"></script>
 
+  <!-- Custom JavaScript -->
+  <script src="./gpt-insight.js"></script>
 </head>
 <body>
   <div class="container">
     <h2>GPT Insights Extension</h2>
     <p>Click the button to generate insights for the selected data.</p>
-    <div>
-      <p style="display: inline">Data Source:</p>
-      <!-- Options to select will be populated by the extension -->
-      <select id="data-selection" class="form-select" aria-label="Data selection" style="display: inline" disabled></select>
-    </div>
+    <button id="generateInsights" class="btn btn-primary">Generate Insights</button>
     <div id="apiResponse" class="alert alert-info" style="margin-top: 20px;">Loading insights...</div>
   </div>
 </body>
