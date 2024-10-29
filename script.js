@@ -1,20 +1,14 @@
 tableau.extensions.initializeAsync().then(() => {
-    // Get the first worksheet (or modify to target a specific one)
     const worksheet = tableau.extensions.dashboardContent.dashboard.worksheets[0];
     worksheet.getSummaryDataAsync().then(dataTable => {
-        // Format data and send to API
         const dataSummary = formatDataForAPI(dataTable);
+        console.log("Data Summary:", dataSummary);  // Log the data summary
         sendDataToAPI(dataSummary);
     });
 });
 
-function formatDataForAPI(dataTable) {
-    // Convert Tableau data to a readable string summary
-    const dataSummary = dataTable.data.map(row => row.map(cell => cell.formattedValue)).join(", ");
-    return `Tableau data summary: ${dataSummary}`;
-}
-
 function sendDataToAPI(dataSummary) {
+    console.log("Sending data to API:", dataSummary);  // Log data before sending to API
     fetch("http://140.118.60.18:8002/model_response", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -30,11 +24,9 @@ function sendDataToAPI(dataSummary) {
         })
     })
     .then(response => response.json())
-    .then(data => displayResponse(data))
+    .then(data => {
+        console.log("API Response:", data);  // Log API response
+        displayResponse(data);
+    })
     .catch(error => console.error("Error:", error));
-}
-
-function displayResponse(data) {
-    const responseDiv = document.getElementById("apiResponse");
-    responseDiv.innerText = data.response || "Error fetching data";
 }
