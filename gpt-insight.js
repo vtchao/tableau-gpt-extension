@@ -1,9 +1,9 @@
 $(document).ready(function() {
-  // Wait until the Tableau Extension API is initialized
+  // Initialize Tableau Extension API
   tableau.extensions.initializeAsync().then(() => {
     console.log("Tableau Extensions API initialized.");
 
-    // Hook up event handler for the Generate Insights button
+    // Event handler for the Generate Insights button
     $('#generateInsights').click(function() {
       generateInsights();
     });
@@ -41,10 +41,17 @@ $(document).ready(function() {
       contentType: 'application/json',
       data: JSON.stringify(body),
       success: function(data) {
-        $('#apiResponse').html(data.response || 'No response from GPT');
+        // Display the response or a message if response is empty
+        $('#apiResponse').html(data.response || JSON.stringify(data) || 'No response from GPT');
       },
       error: function(xhr, status, error) {
-        $('#apiResponse').html(`Error: ${error}`);
+        // Detailed error handling
+        const errorMessage = `
+          <strong>Error:</strong> ${error} <br>
+          <strong>Status:</strong> ${status} <br>
+          <strong>Response:</strong> ${xhr.responseText || 'No response from server'}
+        `;
+        $('#apiResponse').html(errorMessage);
       }
     });
   }
