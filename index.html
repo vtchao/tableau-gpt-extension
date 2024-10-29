@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>GPT Insights Extension</title>
-  <!-- Extensions Library -->
-  <script src="https://extensions.tableauusercontent.com/resources/tableau.extensions.1.latest.min.js"></script>
+  <title>Dashboard Layout Sample</title>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
-  <!-- Custom JavaScript -->
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <!-- Extensions Library (this will be hosted on a CDN eventually) -->
+  <script src="../../../lib/tableau.extensions.1.latest.js"></script>
+
+  <!-- Our extension's code -->
   <script src="./gpt-insight.js"></script>
 </head>
 <body>
   <div class="container">
-    <h2>GPT Insights Extension</h2>
-    <p>Click the button to generate insights for the selected data.</p>
-    <button id="generateInsights" class="btn btn-primary">Generate Insights</button>
-    <div id="apiResponse" class="alert alert-info" style="margin-top: 20px;">Loading insights...</div>
+    <h1>Dashboard Layout Sample</h1>
+    <button id="dashboard-event-btn" class="btn btn-primary" disabled="true">Add Dashboard Event</button>
+    <hr>
+    <h3>Dashboard Changes</h3>
+    <div id="dashboard-layout-change-list" class="container">
+    </div>
   </div>
 </body>
 </html>
